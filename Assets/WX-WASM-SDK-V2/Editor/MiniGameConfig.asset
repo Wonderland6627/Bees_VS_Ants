@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ProjectConf:
     projectName: 
-    Appid: 
+    Appid: wx94a9d861cf30b0c7
     CDN: 
-    assetLoadType: 0
+    assetLoadType: 1
     compressDataPackage: 0
     VideoUrl: 
-    DST: 
+    DST: D:/CustomProjects/BeesVSAnts/WXExport
     StreamCDN: 
     bundleHashLength: 32
     bundlePathIdentifier: StreamingAssets;
