@@ -93,8 +93,16 @@ public class BaseCastle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         }
         // Debug.Log($"[{GetType().Name}] occupied by {unitType}, count = {occupiedUnitCount}");
 
-        //被攻击或者获得增援
-        occupiedUnitCount = unitType == occupiedUnitType ? occupiedUnitCount + 1 : occupiedUnitCount - 1;
+        if (!isOccupied)
+        {
+            //正在尝试占领
+            occupiedUnitCount++;
+        }
+        else
+        {
+            //被攻击或者获得增援
+            occupiedUnitCount = unitType == occupiedUnitType ? occupiedUnitCount + 1 : occupiedUnitCount - 1;
+        }
         UpdateCountText();
         UpdateCastleColor();
     }
