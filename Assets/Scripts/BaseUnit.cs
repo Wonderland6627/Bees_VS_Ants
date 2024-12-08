@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -63,5 +64,20 @@ public class BaseUnit : MonoBehaviour
         
         target.OnOccupyByUnit(unitType);
         Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        BaseUnit otherUnit = other.GetComponent<BaseUnit>();
+        if (otherUnit.IsUnityNull())
+        {
+            return;
+        }
+        if (otherUnit.unitType == unitType)
+        {
+            return;
+        }
+        
+        Destroy(otherUnit.gameObject);
     }
 }
