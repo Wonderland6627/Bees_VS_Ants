@@ -93,7 +93,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitType: 0
   moveDuration: 15
-  moveSpeed: 1
+  moveSpeed: 1.5
   moveDir: {x: 0, y: 0}
   arrivalThreshold: 0.1
   target: {fileID: 0}

@@ -91,7 +91,7 @@ public class BaseCastle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
             occupiedUnitType = unitType;
             StopCurrentAttack();
         }
-        Debug.Log($"[{GetType().Name}] occupied by {unitType}, count = {occupiedUnitCount}");
+        // Debug.Log($"[{GetType().Name}] occupied by {unitType}, count = {occupiedUnitCount}");
 
         //被攻击或者获得增援
         occupiedUnitCount = unitType == occupiedUnitType ? occupiedUnitCount + 1 : occupiedUnitCount - 1;
@@ -137,7 +137,7 @@ public class BaseCastle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         Attack(target);
     }
 
-    private void Attack(BaseCastle target)
+    public void Attack(BaseCastle target)
     {
         if (occupiedUnitCount <= 0)
         {
@@ -148,7 +148,7 @@ public class BaseCastle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         StopCurrentAttack();
         currentAttackCoroutine = StartCoroutine(SendUnit(occupiedUnitCount, target));
         
-        Debug.Log($"[{GetType().Name}] attack [{target.name}]");
+        // Debug.Log($"[{GetType().Name}] attack [{target.name}]");
     }
 
     private void StopCurrentAttack()
