@@ -43,7 +43,7 @@ public class AIPlayer : MonoBehaviour
                 {
                     continue;
                 }
-                antCastle.Attack(targetCastle);
+                antCastle.MoveTo(targetCastle);
             }
         }
     }

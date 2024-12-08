@@ -142,10 +142,10 @@ public class BaseCastle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
             Debug.Log($"[{GetType().Name}] no find target castle");
             return;
         }
-        Attack(target);
+        MoveTo(target);
     }
 
-    public void Attack(BaseCastle target)
+    public void MoveTo(BaseCastle target)
     {
         if (occupiedUnitCount <= 0)
         {
