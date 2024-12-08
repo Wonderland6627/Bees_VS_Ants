@@ -99,19 +99,36 @@ public class BaseCastle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         UpdateCastleColor();
     }
 
+    private bool CanDrag()
+    {
+        return isOccupied && occupiedUnitType == UnitType.Bee;
+    }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (!CanDrag())
+        {
+            return;
+        }
         startDragPos = eventData.position;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (!CanDrag())
+        {
+            return;
+        }
         dragDir = eventData.position - startDragPos;
         dragDir.Normalize();
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (!CanDrag())
+        {
+            return;
+        }
         if (!World.Instance.FindCastle(this, dragDir, out BaseCastle target))
         {
             Debug.Log($"[{GetType().Name}] no find target castle");

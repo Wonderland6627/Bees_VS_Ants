@@ -604,7 +604,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7011851809056773269, guid: 337815322a4ca7347a7d7e634ff1c0ee, type: 3}
       propertyPath: m_Name
-      value: Castle (1)
+      value: FreeCastle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -721,7 +721,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7011851809056773269, guid: 337815322a4ca7347a7d7e634ff1c0ee, type: 3}
       propertyPath: m_Name
-      value: Castle (2)
+      value: AntCastle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -830,7 +830,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7011851809056773269, guid: 337815322a4ca7347a7d7e634ff1c0ee, type: 3}
       propertyPath: m_Name
-      value: Castle
+      value: BeeCastle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
