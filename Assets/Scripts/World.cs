@@ -62,16 +62,7 @@ public class World : SingleMono<World>
         
         target = inAngleCastles.OrderBy(castle => Vector3.Distance(castle.transform.position, origin.transform.position)).First();
 
-        foreach (var road in roads)
-        {
-            if (road.points.Contains(origin.transform as RectTransform) &&
-                road.points.Contains(target.transform as RectTransform))
-            {
-                return true;
-            }
-        }
-        
-        return false;
+        return IsOnSameRoad(origin, target);
     }
 
     private void CreateRoads()
@@ -99,5 +90,10 @@ public class World : SingleMono<World>
             Vector2 center = (start + end) / 2;
             roadImgRect.anchoredPosition = center;
         }
+    }
+    
+    public bool IsOnSameRoad(BaseCastle castle1, BaseCastle castle2)
+    {
+        return roads.Any(road => road.points.Contains(castle1.transform as RectTransform) && road.points.Contains(castle2.transform as RectTransform));
     }
 }

@@ -33,11 +33,18 @@ public class AIPlayer : MonoBehaviour
                 continue;
             }
 
-            BaseCastle targetCastle = World.Instance.castles
+            List<BaseCastle> targetCastles = World.Instance.castles
                 .FindAll(castle => castle != antCastle && castle.occupiedUnitType == UnitType.Bee || !castle.isOccupied)
                 .OrderBy(castle => Vector2.Distance(castle.transform.position, antCastle.transform.position))
-                .FirstOrDefault();
-            antCastle.Attack(targetCastle);
+                .ToList();
+            foreach (var targetCastle in targetCastles)
+            {
+                if (!World.Instance.IsOnSameRoad(antCastle, targetCastle))
+                {
+                    continue;
+                }
+                antCastle.Attack(targetCastle);
+            }
         }
     }
 }
