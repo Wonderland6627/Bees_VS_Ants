@@ -8,7 +8,7 @@ using UnityEngine.UI;
 [System.Serializable]
 public class Road
 {
-    public RectTransform[] points; //限制points的长度为2
+    public List<RectTransform> points; //限制points的长度为2
 }
 
 public class World : SingleMono<World>
@@ -61,7 +61,17 @@ public class World : SingleMono<World>
         }
         
         target = inAngleCastles.OrderBy(castle => Vector3.Distance(castle.transform.position, origin.transform.position)).First();
-        return true;
+
+        foreach (var road in roads)
+        {
+            if (road.points.Contains(origin.transform as RectTransform) &&
+                road.points.Contains(target.transform as RectTransform))
+            {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     private void CreateRoads()
@@ -70,7 +80,7 @@ public class World : SingleMono<World>
         for (int i = 0; i < roads.Count; i++)
         {
             Road road = roads[i];
-            if (road.points.Length != 2)
+            if (road.points.Count != 2)
             {
                 continue;
             }
