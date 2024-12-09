@@ -20,7 +20,7 @@ public class AIPlayer : MonoBehaviour
 
     void Execute()
     {
-        List<BaseCastle> antCastles = World.Instance.castles.FindAll(castle => castle.occupiedUnitType == UnitType.Ant);
+        List<BaseCastle> antCastles = World.Instance.castles.FindAll(castle => castle.occupiedSlimeType == SlimeType.Blue);
         for (int i = 0; i < antCastles.Count; i++)
         {
             BaseCastle antCastle = antCastles[i];
@@ -34,7 +34,7 @@ public class AIPlayer : MonoBehaviour
             }
 
             List<BaseCastle> targetCastles = World.Instance.castles
-                .FindAll(castle => castle != antCastle && castle.occupiedUnitType == UnitType.Bee || !castle.isOccupied)
+                .FindAll(castle => castle != antCastle && castle.occupiedSlimeType == SlimeType.Red || !castle.isOccupied)
                 .OrderBy(castle => Vector2.Distance(castle.transform.position, antCastle.transform.position))
                 .ToList();
             foreach (var targetCastle in targetCastles)

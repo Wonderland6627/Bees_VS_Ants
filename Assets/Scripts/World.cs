@@ -16,19 +16,21 @@ public class World : SingleMono<World>
     public List<BaseCastle> castles = new List<BaseCastle>();
     public List<Road> roads = new List<Road>();
 
+    private Canvas canvas;
     private RectTransform roadContainer;
 
     public void Init()
     {
         castles.AddRange(FindObjectsOfType<BaseCastle>());
+        canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
         roadContainer = GameObject.Find("Canvas/BG/RoadContainer").GetComponent<RectTransform>();
         CreateRoads();
     }
     
-    public BaseUnit CreateUnit(BaseCastle spawnCastle, UnitType unitType, BaseCastle targetCastle)
+    public BaseUnit CreateUnit(BaseCastle spawnCastle, SlimeType slimeType, BaseCastle targetCastle)
     {
-        var res = Resources.Load<BaseUnit>(unitType.ToString());
-        var unit = Instantiate(res, FindObjectOfType<Canvas>().transform);
+        var res = Resources.Load<BaseUnit>($"Slime/{slimeType}");
+        var unit = Instantiate(res, canvas.transform);
         unit.transform.position = spawnCastle.transform.position;
         unit.SetTarget(targetCastle);
         return unit;

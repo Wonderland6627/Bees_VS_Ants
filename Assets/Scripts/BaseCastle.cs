@@ -14,13 +14,15 @@ public enum CastleType
 
 public class BaseCastle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public Image castleImage;
+    public Image redImage;
+    public Image blueImage;
+    public Image freeImage;
     public Text countText;
     
     public CastleType castleType;
     public bool isOccupiedOnStart = true; //初始不为空塔
     public bool isOccupied => occupiedUnitCount > 0; //是否被任何单位占领
-    public UnitType occupiedUnitType; //占领单位类型
+    public SlimeType occupiedSlimeType; //占领单位类型
     public int occupiedUnitCount; //占领单位数量
 
     public float unitSpawnInterval = 1f;
@@ -30,10 +32,6 @@ public class BaseCastle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     
     private Coroutine currentAttackCoroutine;
 
-    private static Color BeeCastleColor = Color.yellow;
-    private static Color AntCastleColor = Color.blue;
-    private static Color FreeCastleColor = Color.gray;
-
     private void Start()
     {
         Init();
@@ -41,7 +39,9 @@ public class BaseCastle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     private void Init()
     {
-        castleImage = transform.Find("Image").GetComponent<Image>();
+        redImage = transform.Find("Image_Red").GetComponent<Image>();
+        blueImage = transform.Find("Image_Blue").GetComponent<Image>();
+        freeImage = transform.Find("Image_Free").GetComponent<Image>();
         countText = transform.Find("CountTxt").GetComponent<Text>();
         if (!isOccupiedOnStart)
         {
@@ -49,19 +49,25 @@ public class BaseCastle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         }
 
         UpdateCountText();
-        UpdateCastleColor();
+        UpdateCastleImage();
         
         InvokeRepeating("SpawnUnit", 1f, unitSpawnInterval);
     }
 
-    private void UpdateCastleColor()
+    private void UpdateCastleImage(bool animate = false)
     {
+        redImage.gameObject.SetActive(false);
+        blueImage.gameObject.SetActive(false);
+        freeImage.gameObject.SetActive(false);
+        
         if (!isOccupied)
         {
-            castleImage.color = FreeCastleColor;
+            freeImage.gameObject.SetActive(true);
             return;
         }
-        castleImage.color = occupiedUnitType == UnitType.Bee ? BeeCastleColor : AntCastleColor;
+        bool useRed = occupiedSlimeType == SlimeType.Red;
+        redImage.gameObject.SetActive(useRed);
+        blueImage.gameObject.SetActive(!useRed);
     }
 
     private void UpdateCountText()
@@ -84,11 +90,11 @@ public class BaseCastle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         countText.text = $"{occupiedUnitCount}";
     }
     
-    public void OnOccupyByUnit(UnitType unitType)
+    public void OnOccupyByUnit(SlimeType slimeType)
     {
         if (occupiedUnitCount == 0)
         {
-            occupiedUnitType = unitType;
+            occupiedSlimeType = slimeType;
             StopCurrentAttack();
         }
         // Debug.Log($"[{GetType().Name}] occupied by {unitType}, count = {occupiedUnitCount}");
@@ -101,15 +107,15 @@ public class BaseCastle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         else
         {
             //被攻击或者获得增援
-            occupiedUnitCount = unitType == occupiedUnitType ? occupiedUnitCount + 1 : occupiedUnitCount - 1;
+            occupiedUnitCount = slimeType == occupiedSlimeType ? occupiedUnitCount + 1 : occupiedUnitCount - 1;
         }
         UpdateCountText();
-        UpdateCastleColor();
+        UpdateCastleImage();
     }
 
     private bool CanDrag()
     {
-        return isOccupied && occupiedUnitType == UnitType.Bee;
+        return isOccupied && occupiedSlimeType == SlimeType.Red;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -154,7 +160,7 @@ public class BaseCastle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         }
 
         StopCurrentAttack();
-        currentAttackCoroutine = StartCoroutine(SendUnit(occupiedUnitCount, target));
+        currentAttackCoroutine = StartCoroutine(SendSlime(occupiedUnitCount, target));
         
         // Debug.Log($"[{GetType().Name}] attack [{target.name}]");
     }
@@ -169,13 +175,13 @@ public class BaseCastle : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         currentAttackCoroutine = null;
     }
 
-    private IEnumerator SendUnit(int count, BaseCastle target)
+    private IEnumerator SendSlime(int count, BaseCastle target)
     {
         var wait = new WaitForSeconds(0.5f);
         for (int i = 0; i < count; i++)
         {        
             yield return wait;
-            World.Instance.CreateUnit(this, occupiedUnitType, target);
+            World.Instance.CreateUnit(this, occupiedSlimeType, target);
             occupiedUnitCount--;
             countText.text = $"{occupiedUnitCount}";
         }

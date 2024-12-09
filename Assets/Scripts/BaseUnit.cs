@@ -5,15 +5,15 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public enum UnitType
+public enum SlimeType
 {
-    Bee,
-    Ant,
+    Red,
+    Blue,
 }
 
 public class BaseUnit : MonoBehaviour
 {
-    public UnitType unitType;
+    public SlimeType slimeType;
     
     public float moveDuration = 15f;
     public float moveSpeed = 1.0f;
@@ -62,7 +62,7 @@ public class BaseUnit : MonoBehaviour
             return;
         }
         
-        target.OnOccupyByUnit(unitType);
+        target.OnOccupyByUnit(slimeType);
         Destroy(gameObject);
     }
 
@@ -73,7 +73,7 @@ public class BaseUnit : MonoBehaviour
         {
             return;
         }
-        if (otherUnit.unitType == unitType)
+        if (otherUnit.slimeType == slimeType)
         {
             return;
         }

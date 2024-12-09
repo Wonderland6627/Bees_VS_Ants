@@ -669,6 +669,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1389135001049629377, guid: 337815322a4ca7347a7d7e634ff1c0ee, type: 3}
+      propertyPath: occupiedSlimeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1389135001049629377, guid: 337815322a4ca7347a7d7e634ff1c0ee, type: 3}
       propertyPath: occupiedUnitCount
       value: 3
       objectReference: {fileID: 0}
@@ -758,7 +762,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7011851809056773269, guid: 337815322a4ca7347a7d7e634ff1c0ee, type: 3}
       propertyPath: m_Name
-      value: AntCastle
+      value: BlueCastle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -933,7 +937,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7011851809056773269, guid: 337815322a4ca7347a7d7e634ff1c0ee, type: 3}
       propertyPath: m_Name
-      value: BeeCastle
+      value: RedCastle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
