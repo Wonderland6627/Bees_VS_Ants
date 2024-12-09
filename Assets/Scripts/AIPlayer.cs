@@ -9,7 +9,7 @@ public class AIPlayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("Execute", 1f, 3f);
+        InvokeRepeating("Execute", 1f, 2.5f);
     }
 
     // Update is called once per frame
@@ -20,30 +20,41 @@ public class AIPlayer : MonoBehaviour
 
     void Execute()
     {
-        List<BaseCastle> antCastles = World.Instance.castles.FindAll(castle => castle.occupiedSlimeType == SlimeType.Blue);
-        for (int i = 0; i < antCastles.Count; i++)
+        List<BaseCastle> aiCastles = World.Instance.castles.FindAll(castle => castle.occupiedSlimeType == SlimeType.Blue);
+        for (int i = 0; i < aiCastles.Count; i++)
         {
-            BaseCastle antCastle = antCastles[i];
-            if (antCastle.IsUnityNull())
+            BaseCastle aiCastle = aiCastles[i];
+            if (aiCastle.IsUnityNull())
             {
                 continue;
             }
-            if (antCastle.occupiedUnitCount < 5)
+            if (aiCastle.occupiedUnitCount < 5)
             {
                 continue;
             }
 
-            List<BaseCastle> targetCastles = World.Instance.castles
-                .FindAll(castle => castle != antCastle && castle.occupiedSlimeType == SlimeType.Red || !castle.isOccupied)
-                .OrderBy(castle => Vector2.Distance(castle.transform.position, antCastle.transform.position))
+            List<BaseCastle> playerCastles = World.Instance.castles
+                .FindAll(castle => castle != aiCastle && castle.occupiedSlimeType == SlimeType.Red || !castle.isOccupied)
+                .OrderBy(castle => Vector2.Distance(castle.transform.position, aiCastle.transform.position))
                 .ToList();
-            foreach (var targetCastle in targetCastles)
+            foreach (var playerCastle in playerCastles)
             {
-                if (!World.Instance.IsOnSameRoad(antCastle, targetCastle))
+                if (!World.Instance.IsOnSameRoad(aiCastle, playerCastle))
                 {
-                    continue;
+                    //找交叉点
+                    var allCrossCastles = World.Instance.castles.FindAll(castle =>
+                        World.Instance.IsOnSameRoad(aiCastle, castle) &&
+                        World.Instance.IsOnSameRoad(playerCastle, castle));
+                    var nearestCrossCastle = allCrossCastles
+                       .OrderBy(castle => Vector2.Distance(castle.transform.position, aiCastle.transform.position))
+                       .FirstOrDefault();
+                    if (nearestCrossCastle != null)
+                    {
+                        aiCastle.MoveTo(nearestCrossCastle);
+                        continue;
+                    }
                 }
-                antCastle.MoveTo(targetCastle);
+                aiCastle.MoveTo(playerCastle);
             }
         }
     }
