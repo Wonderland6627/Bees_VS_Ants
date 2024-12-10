@@ -33,6 +33,7 @@ public class AIPlayer : MonoBehaviour
                 continue;
             }
 
+            //蚂蚁首先找最近的蜜蜂点位 找到路径 攻占路径上的点位
             List<BaseCastle> playerCastles = World.Instance.castles
                 .FindAll(castle => castle != aiCastle && castle.occupiedSlimeType == SlimeType.Red || !castle.isOccupied)
                 .OrderBy(castle => Vector2.Distance(castle.transform.position, aiCastle.transform.position))
