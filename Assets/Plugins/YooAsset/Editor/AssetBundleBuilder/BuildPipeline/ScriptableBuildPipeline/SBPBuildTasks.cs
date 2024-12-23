@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEditor.Build.Pipeline.Interfaces;
 
 namespace UnityEditor.Build.Pipeline.Tasks
 {
@@ -23,7 +24,7 @@ namespace UnityEditor.Build.Pipeline.Tasks
 #endif
             buildTasks.Add(new CalculateAssetDependencyData());
             buildTasks.Add(new StripUnusedSpriteSources());
-            buildTasks.Add(new CreateBuiltInBundle(builtInShaderBundleName));
+            // buildTasks.Add(new CreateBuiltInBundle(builtInShaderBundleName));
             buildTasks.Add(new PostDependencyCallback());
 
             // Packing
